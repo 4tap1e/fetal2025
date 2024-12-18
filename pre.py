@@ -12,7 +12,7 @@ from torch.utils.data.sampler import Sampler
 
 
 class FetalDataset(Dataset):
-    def __init__(self, labeled_data_dir, unlabeled_data_dir, transform=None):
+    def __init__(self, labeled_data_dir, transform=None): #  unlabeled_data_dir
         """
         初始化数据集。
         
@@ -21,25 +21,22 @@ class FetalDataset(Dataset):
         :param transform: 用于图像的预处理操作。
         """
         self.labeled_data_dir = labeled_data_dir
-        self.unlabeled_data_dir = unlabeled_data_dir
+        # self.unlabeled_data_dir = unlabeled_data_dir
         self.transform = transform
         
         # 加载有标签数据
         self.labeled_images = sorted(os.listdir(os.path.join(labeled_data_dir, 'images')))
         self.labeled_labels = sorted(os.listdir(os.path.join(labeled_data_dir, 'labels')))
         
-        # 加载无标签数据
-        self.unlabeled_images = sorted(os.listdir(unlabeled_data_dir))
+        # # 加载无标签数据
+        # self.unlabeled_images = sorted(os.listdir(unlabeled_data_dir))
 
         # 计算总的数据条数
         self.total_labeled = len(self.labeled_images)
-        self.total_unlabeled = len(self.unlabeled_images)
+        # self.total_unlabeled = len(self.unlabeled_images)
 
     def __len__(self):
-        """
-        返回数据集的总大小，包括有标签和无标签的数据。
-        """
-        return self.total_labeled + self.total_unlabeled
+        return self.total_labeled # self.total_labeled + self.total_unlabeled
 
     def __getitem__(self, idx):
         """
